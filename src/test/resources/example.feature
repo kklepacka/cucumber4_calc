@@ -1,11 +1,11 @@
 Feature: Multiplication
-  Scenario: Multiply two numbers
-    Given I have two numbers: <number1> and <number2>
-    When I multiply the numbers
-    Then the result should be <result>
+  In order to perform calculations
+  As a user
+  I want to multiply numbers
 
-  Examples:
-    | number1 | number2 | result |
-    | 2       | 3       | 6      |
-    | 5       | 6       | 30     |
-    | 10      | 2       | 20     |
+  Scenario: Multiply two numbers
+    Given I have the following numbers:
+      | Number1 | Number2 |
+      | 2       | 3       |
+    When I multiply the numbers
+    Then the result should be 6

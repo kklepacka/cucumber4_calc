@@ -1,29 +1,33 @@
-package com.example.stepdefinitions;
+package com.example;
 
-
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class StepDefinitions {
-    private int number1;
-    private int number2;
     private int result;
+    private List<Map<String, Integer>> numberPairs;
 
-    @Given("I have two numbers: {int} and {int}")
-    public void iHaveTwoNumbers(int num1, int num2) {
-        this.number1 = num1;
-        this.number2 = num2;
+    @Given("I have the following numbers:")
+    public void iHaveTheFollowingNumbers(DataTable dataTable) {
+        this.numberPairs = dataTable.asMaps(String.class, Integer.class);
     }
 
     @When("I multiply the numbers")
     public void iMultiplyTheNumbers() {
-        this.result = number1 * number2;
+        result = numberPairs.stream()
+                .mapToInt(pair -> pair.get("Number1") * pair.get("Number2"))
+                .reduce(1, Math::multiplyExact);
     }
 
     @Then("the result should be {int}")
     public void theResultShouldBe(int expected) {
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 }
