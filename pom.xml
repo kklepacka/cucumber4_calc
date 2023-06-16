@@ -1,26 +1,36 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.example</groupId>
   <artifactId>cucumber-project</artifactId>
-  <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>cucumber-project</name>
   <url>http://maven.apache.org</url>
+  
+  <properties>
+    <cucumber.version>3.0.2</cucumber.version>
+    <junit.version>4.13.2</junit.version>
+    <selenium.version>3.141.59</selenium.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
   
   <dependencies>
     <!-- Cucumber -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
-      <version>6.11.0</version>
+      <version>${cucumber.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit</artifactId>
-      <version>6.11.0</version>
+      <version>${cucumber.version}</version>
       <scope>test</scope>
     </dependency>
     
@@ -28,7 +38,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     
@@ -36,21 +46,39 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>3.141.59</version>
+      <version>${selenium.version}</version>
     </dependency>
   </dependencies>
 
-<build>
+  <build>
     <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
+      <plugin>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-maven-plugin</artifactId>
+        <version>${cucumber.version}</version>
+        <executions>
+          <execution>
+            <id>generate-cucumber-sources</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>generate-test-sources</goal>
+            </goals>
             <configuration>
-                <source>8</source>
-                <target>8</target>
+              <glue>com.example.steps</glue>
+              <featuresDirectory>src/test/resources/features</featuresDirectory>
             </configuration>
-        </plugin>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
     </plugins>
-</build>
+  </build>
 </project>
